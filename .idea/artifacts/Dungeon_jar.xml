@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="Dungeon:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Dungeon_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Dungeon.jar">
+        <element id="module-output" name="Dungeon" />
+      </element>
+    </root>
+  </artifact>
+</component>

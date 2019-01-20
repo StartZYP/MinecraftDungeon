@@ -1,0 +1,6 @@
+name: Dungeon
+main: com.qq44920040.Minecarft.Dungeon
+version: 1.0
+commands:
+  DG:
+#depend: [Team]
