@@ -9,7 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.event.world.ChunkEvent;
+import org.bukkit.generator.ChunkGenerator;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -34,12 +36,15 @@ public class PlayerListener implements Listener {
         event.getPlayer().teleport(Bukkit.getWorld(Dungeon.MainWorld).getSpawnLocation());
     }
 
+
     @EventHandler
     public void PlayerChangeWorld(PlayerChangedWorldEvent playerChangedWorldEvent){
         Player p = playerChangedWorldEvent.getPlayer();
         DungeonWorld tempworld = findgoworld(p.getLocation().getWorld().getName());
         UUID PlayerUid =p.getUniqueId();
         Dungeon.PlayerDungeonTeamTime.remove(PlayerUid);
+
+
         if (p.isOp()){
             return;
         }else if (tempworld==null&&Dungeon.PlayerDungeonTeamTime.containsKey(PlayerUid)){
@@ -53,18 +58,15 @@ public class PlayerListener implements Listener {
                 }else {
                     int WorldNumber = Integer.parseInt(tempworld.getWorldNum());
                     String WorldName = tempworld.getWorldName();
-                    if (p.hasPermission("Dungeon."+WorldName+".Num")){
-                        System.out.println("玩家有权限");
-                        for (PermissionAttachmentInfo info:p.getEffectivePermissions()){
-                            String temppermission=info.getPermission();
-                            if (temppermission.contains("Dungeon." +WorldName + ".Num.")){
-                                WorldNumber += Integer.parseInt(temppermission.replace("Dungeon." + WorldName+ ".Num.",""));
-                            }
+                    for (int i=1;i<=100;i++){
+                        if (p.hasPermission("Dungeon."+WorldName+".Num."+i)){
+                            WorldName+=i;
+                            break;
                         }
                     }
-                    int EnterNum = DBUtile.GetSqliteData(PlayerUid,WorldName,tempworld.getWorldRefreshTime());
+                    int EnterNum = DBUtile.GetSqliteData(PlayerUid,WorldName);
                     if (!(EnterNum<WorldNumber)){
-                        p.sendMessage(Dungeon.PlayerNotNum.replace("[PlayerName]",p.getName()).replace("[WorldRefreshTime]",tempworld.getWorldRefreshTime()));
+                        p.sendMessage(Dungeon.PlayerNotNum.replace("[PlayerName]",p.getName()));
                         p.teleport(Bukkit.getWorld(Dungeon.MainWorld).getSpawnLocation());
                     }else {
                         Calendar calendar = Calendar.getInstance();

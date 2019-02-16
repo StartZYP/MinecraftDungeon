@@ -1,10 +1,11 @@
 MainWorld: world
 MsgConfig:
   PlayerLevelinsufficient: §c§l队伍中玩家[PlayerName]等级不足[WorldLevel]级.全队无法传送
-  PlayerNotNum: §c§l队伍中玩家[PlayerName]进入次数已耗尽.全队无法传送,副本刷新为[WorldRefreshTime]小时
+  PlayerNotNum: §c§l队伍中玩家[PlayerName]进入次数已耗尽.全队无法传送,副本刷新为24小时
   InDungeon: §c§l您正在副本。正在检测副本停留时间[InTime]
   LeaveMsg: §c§l您退出了副本。已从副本计时队列中踢出
   EnterMsg: §c§成功进入副本[DungeonName],当前已进次数[DungeonNum],
+  InfoMsg: §c§l玩家世界[WorldName],您还有[HaveNum]次
 Dungeon:
   world1:
     WaitingTime: 5

@@ -1,11 +1,10 @@
 package com.qq44920040.Minecarft.Model;
 
 public class DungeonWorld {
-    public DungeonWorld(String Name,String Num,String WatingTime,String Level,String RefreshTime){
+    public DungeonWorld(String Name,String Num,String WatingTime,String Level){
         this.WorldName = Name;
         this.WorldNum = Num;
         this.WorldLevel = Level;
-        this.WorldRefreshTime = RefreshTime;
         this.WorldWatingTime = WatingTime;
     }
 
@@ -13,7 +12,6 @@ public class DungeonWorld {
     private String WorldNum;
     private String WorldWatingTime;
     private String WorldLevel;
-    private String WorldRefreshTime;
 
 
 
@@ -30,10 +28,5 @@ public class DungeonWorld {
     }
 
     public String getWorldLevel() { return this.WorldLevel; }
-
-
-    public String getWorldRefreshTime() {
-        return this.WorldRefreshTime;
-    }
 
 }

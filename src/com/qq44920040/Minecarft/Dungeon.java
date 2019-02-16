@@ -22,6 +22,7 @@ public class Dungeon extends JavaPlugin {
     public static String PlayerNotNum;
     public static String LeaveDungeon;
     public static String EnterMsg;
+    private static String InfoMsg;
 
     @Override
     public void onEnable() {
@@ -38,9 +39,8 @@ public class Dungeon extends JavaPlugin {
             String num = getConfig().getString("Dungeon."+WorldName+".Num");
             String  waiting=getConfig().getString("Dungeon."+WorldName+".WaitingTime");
             String Level = getConfig().getString("Dungeon."+WorldName+".Level");
-            String RefreshTime = getConfig().getString("Dungeon."+WorldName+".RefreshTime");
-            System.out.println(num+"\n"+waiting+"\n"+Level+"\n"+RefreshTime);
-            Worlds.add(new DungeonWorld(WorldName,num,waiting,Level,RefreshTime));
+            System.out.println(num+"\n"+waiting+"\n"+Level+"\n");
+            Worlds.add(new DungeonWorld(WorldName,num,waiting,Level));
         }
         PlayerLevelinsufficient = getConfig().getString("MsgConfig.PlayerLevelinsufficient");
         PlayerNotNum = getConfig().getString("MsgConfig.PlayerNotNum");
@@ -48,6 +48,7 @@ public class Dungeon extends JavaPlugin {
         LeaveDungeon = getConfig().getString("MsgConfig.LeaveMsg");
         EnterMsg = getConfig().getString("MsgConfig.EnterMsg");
         MainWorld = getConfig().getString("MainWorld");
+        InfoMsg = getConfig().getString("InfoMsg");
         System.out.println(Worlds.size());
         if (Worlds.size()>0&&MainWorld.equals("")){
             System.out.println("[Dungeon]加载失败配置项未填写");
@@ -63,6 +64,19 @@ public class Dungeon extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("DG")){
+            if(args.length==1&&args[0].equalsIgnoreCase("info")&&sender instanceof Player){
+                Worlds.forEach((DungeonWorld dw)->{
+                    int EnterMaxNum=Integer.parseInt(dw.getWorldNum());
+                    for (int i=1;i<=100;i++){
+                        if (sender.hasPermission("Dungeon."+dw.getWorldName()+".Num."+i)){
+                            EnterMaxNum+=i;
+                            break;
+                        }
+                    }
+                    int EnterNum = DBUtile.GetSqliteData(((Player) sender).getUniqueId(),dw.getWorldName());
+                    sender.sendMessage(InfoMsg.replace("[WorldName]",dw.getWorldName()).replace("[HaveNum]",String.valueOf(EnterMaxNum-EnterNum)));
+                });
+            }
             if(args.length==1&&args[0].equalsIgnoreCase("reload")){
                 saveConfig();
                 if (!getDataFolder().exists()) {
@@ -78,9 +92,8 @@ public class Dungeon extends JavaPlugin {
                     String num = getConfig().getString("Dungeon."+WorldName+".Num");
                     String  waiting=getConfig().getString("Dungeon."+WorldName+".WaitingTime");
                     String Level = getConfig().getString("Dungeon."+WorldName+".Level");
-                    String RefreshTime = getConfig().getString("Dungeon."+WorldName+".RefreshTime");
-                    System.out.println(num+"\n"+waiting+"\n"+Level+"\n"+RefreshTime);
-                    Worlds.add(new DungeonWorld(WorldName,num,waiting,Level,RefreshTime));
+                    System.out.println(num+"\n"+waiting+"\n"+Level+"\n");
+                    Worlds.add(new DungeonWorld(WorldName,num,waiting,Level));
                 }
                 PlayerLevelinsufficient = getConfig().getString("MsgConfig.PlayerLevelinsufficient");
                 PlayerNotNum = getConfig().getString("MsgConfig.PlayerNotNum");
@@ -88,6 +101,7 @@ public class Dungeon extends JavaPlugin {
                 LeaveDungeon = getConfig().getString("MsgConfig.LeaveMsg");
                 EnterMsg = getConfig().getString("MsgConfig.EnterMsg");
                 MainWorld = getConfig().getString("MainWorld");
+                InfoMsg = getConfig().getString("InfoMsg");
                 System.out.println(Worlds.size());
                 if (Worlds.size()>0&&MainWorld.equals("")){
                     System.out.println("[Dungeon]加载失败配置项未填写");

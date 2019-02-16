@@ -23,12 +23,12 @@ public class DBUtile  {
         }
     }
 
-    public static int GetSqliteData(UUID playeruuid,String worldNmae,String RefreshTime){
+    public static int GetSqliteData(UUID playeruuid,String worldNmae){
         int rowCount = 0;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "select * from Dungeon where UUid='"+playeruuid+"' and WorldDungeonName='"+worldNmae+"' and PexexpireTime<=datetime('now','localtime','+"+RefreshTime+" hour')";
+            String sql = "select * from Dungeon where UUid='"+playeruuid+"' and WorldDungeonName='"+worldNmae+"' and PexexpireTime>=date()";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()){
                 rowCount++;
