@@ -11,9 +11,7 @@ Dungeon:
     WaitingTime: 5
     Num: 3
     Level: 4
-    RefreshTime: 4
   world4:
     WaitingTime: 5
-    Num: 3
+    Num: 5
     Level: 4
-    RefreshTime: 4

@@ -28,7 +28,7 @@ public class DBUtile  {
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String sql = "select * from Dungeon where UUid='"+playeruuid+"' and WorldDungeonName='"+worldNmae+"' and PexexpireTime>=date()";
+            String sql = "select * from Dungeon where UUid='"+playeruuid+"' and WorldDungeonName='"+worldNmae+"' and PexexpireTime>=strftime('%Y-%m-%d 00:00:00', 'now','localtime')date()";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()){
                 rowCount++;

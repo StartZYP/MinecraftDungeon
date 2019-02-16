@@ -9,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.ChunkEvent;
-import org.bukkit.generator.ChunkGenerator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -42,9 +40,6 @@ public class PlayerListener implements Listener {
         Player p = playerChangedWorldEvent.getPlayer();
         DungeonWorld tempworld = findgoworld(p.getLocation().getWorld().getName());
         UUID PlayerUid =p.getUniqueId();
-        Dungeon.PlayerDungeonTeamTime.remove(PlayerUid);
-
-
         if (p.isOp()){
             return;
         }else if (tempworld==null&&Dungeon.PlayerDungeonTeamTime.containsKey(PlayerUid)){
@@ -60,7 +55,7 @@ public class PlayerListener implements Listener {
                     String WorldName = tempworld.getWorldName();
                     for (int i=1;i<=100;i++){
                         if (p.hasPermission("Dungeon."+WorldName+".Num."+i)){
-                            WorldName+=i;
+                            WorldNumber+=i;
                             break;
                         }
                     }
